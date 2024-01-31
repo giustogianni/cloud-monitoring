@@ -1,0 +1,24 @@
+kind: source
+spec:
+  name: aws
+  path: cloudquery/aws
+  version: "v22.5.1"
+  destinations: ["azblob_aws"]
+  tables: ["aws_ec2_instances", "aws_iam_accounts", "aws_iam_roles"]
+  spec:
+    org:
+      member_role_name: cloudquery-ro
+      admin_account:
+        local_profile: "admin"
+---
+kind: destination
+spec:
+  name: "azblob_aws"
+  path: "cloudquery/azblob"
+  version: "v3.4.1"
+  write_mode: "append"
+  spec:
+    storage_account: "prodstorage"
+    container: "sync"
+    path: "{{ .Env.DATE -}}/aws"
+    format: "parquet"
