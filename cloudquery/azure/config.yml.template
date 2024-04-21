@@ -1,0 +1,20 @@
+kind: source
+spec:
+  name: "azure"
+  path: "cloudquery/azure"
+  version: "v8.3.0"
+  destinations: ["azblob"]
+  concurrency: 10000
+  tables: ["*"]
+---
+kind: destination
+spec:
+  name: "azblob"
+  path: "cloudquery/azblob"
+  version: "v3.2.2"
+  write_mode: "append"
+  spec:
+    storage_account: "prodstorage"
+    container: "sync"
+    path: "{{ .Env.DATE -}}/azure"
+    format: "parquet"
